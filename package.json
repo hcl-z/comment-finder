@@ -15,7 +15,6 @@
     "format": "prettier --write 'src/**/*.{ts,tsx}' 'README.md'",
     "lint": "tslint -p . -c tslint.json 'src/**/*.{ts,tsx}'",
     "test": "jest",
-    "prebuild": "rimraf dist",
     "version": "npm-run-all --parallel lint build --aggregate-output",
     "release": "np",
     "precommit": "lint-staged"
