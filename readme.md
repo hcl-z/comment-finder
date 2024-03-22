@@ -1,5 +1,8 @@
 # comment-finder
-[![Build Status](https://travis-ci.org/hcl-z/comment-finder.svg?branch=master)](https://travis-ci.org/hcl-z/comment-finder) [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/hcl-z/comment-finder/issues) [![HitCount](http://hits.dwyl.io/hcl-z/comment-finder.svg)](http://hits.dwyl.io/hcl-z/comment-finder) [![npm](https://img.shields.io/npm/v/comment-finder.svg)](https://www.npmjs.com/package/comment-finder) [![npm](https://img.shields.io/npm/l/comment-finder.svg)](https://www.npmjs.com/package/comment-finder)
+[![npm Package](https://img.shields.io/npm/v/comment-finder.svg?style=flat-square)](https://www.npmjs.org/package/comment-finder)
+[![NPM Downloads](https://img.shields.io/npm/dm/comment-finder.svg)](https://npmjs.org/package/comment-finder)
+[![Build Status](https://github.com/hcl-z/comment-finder/actions/workflows/npm-publish.yml/badge.svg)](https://github.com/hcl-z/comment-finder/actions/npm-publish.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 a comment parser for code language
 
