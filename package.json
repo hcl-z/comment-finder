@@ -1,0 +1,47 @@
+{
+  "name": "comment-finder",
+  "description": "parse comment from different code languages",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.prod.json",
+    "start": "node dist",
+    "dev": "ts-node src/index.ts",
+    "format": "prettier --write 'src/**/*.{ts,tsx}' 'README.md'",
+    "lint": "tslint -p . -c tslint.json 'src/**/*.{ts,tsx}'",
+    "test": "jest",
+    "prebuild": "rimraf dist",
+    "version": "npm-run-all --parallel lint build --aggregate-output",
+    "release": "np",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "**/*.{ts,tsx}": [
+      "prettier --write ",
+      "tslint -p . -c tslint.json ",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "comment",
+    "parse"
+  ],
+  "author": {
+    "name": "hcl-z",
+    "url": "https://github.com/hcl-z"
+  },
+  "repository": "https://github.com/hcl-z/comment-finder",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.3"
+  }
+}
