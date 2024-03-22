@@ -20,7 +20,7 @@ jobs:
       - run: npm install --package-lock-only
       - run: npm ci
       - run: npm test
-      - run: npm build
+      - run: npm run build
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
