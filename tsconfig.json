@@ -2,7 +2,10 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "lib": ["es2020","dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "allowJs": false,
     "checkJs": false,
     "declaration": true,
@@ -27,7 +30,15 @@
     "pretty": true,
     "stripInternal": true,
     "jsx": "react",
-    "removeComments": false
+    "removeComments": false,
+    "types": [
+      "node",
+      "jest"
+    ]
   },
-  "include": ["src", "types", "test/index.test.ts"]
+  "include": [
+    "src",
+    "types",
+    "test/index.test.ts"
+  ]
 }
