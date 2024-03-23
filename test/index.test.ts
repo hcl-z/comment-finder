@@ -1,4 +1,4 @@
-import { parse, ICommentParserConfig, CommentType } from '../src/index';
+import { parse, ICommentParserConfig, CommentType } from '../index';
 
 describe('commentParser', () => {
   describe('parse', () => {
