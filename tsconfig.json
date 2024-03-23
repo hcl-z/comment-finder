@@ -25,11 +25,10 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "importHelpers": true,
+    "importHelpers": false,
     "moduleResolution": "node",
     "pretty": true,
     "stripInternal": true,
-    "jsx": "react",
     "removeComments": false,
     "types": [
       "node",
