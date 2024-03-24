@@ -1,4 +1,5 @@
 import { CommentRegExpMap, CommentType, DEFAULTCOMMENTRE, languageCommentTypeMap } from "./const";
+import { beautify, getContentFromPos, getPosDetail } from "./utils";
 
 
 export interface IRegExp {
@@ -10,6 +11,7 @@ export interface IRegExp {
      * 是否为单行注释 default: false
      */
     isSingleLine?: boolean;
+
     /**
      * 每次匹配到一个结果后就会触发的回调
      * @param current 当前匹配到的结果
@@ -41,19 +43,30 @@ export interface ICommentParserConfig {
      * 自定义正则匹配
      */
     regExp?: IRegExp[];
+    /**
+    * 是否美化注释内容
+    */
+    beautifyOutput?: boolean;
+    /**
+     * 连行的单行注释合并成一条输出
+     */
+    mergeSingleLine?: boolean;
 }
 
-export interface CommentMatch {
-    match: string;
+export interface CommentMatchPos {
     startLine?: number;
     endLine?: number;
     startColumn?: number;
     endColumn?: number;
+}
+export interface CommentMatch extends CommentMatchPos {
+    match: string;
     content?: string;
     type?: CommentType;
     regExpSource?: string;
 }
 
+type CommentExtraType = Pick<CommentMatch, 'type' | 'regExpSource'>
 
 // 获取注释正则匹配
 const getCommentTypeList = (config: ICommentParserConfig) => {
@@ -76,60 +89,54 @@ const getCommentTypeList = (config: ICommentParserConfig) => {
 }
 
 
-const findAllMatches = (content: string, regex: IRegExp, config: ICommentParserConfig, extra?: Pick<CommentMatch, 'type' | 'regExpSource'>) => {
+const findAllMatches = (content: string, regex: IRegExp, config: ICommentParserConfig, extra?: CommentExtraType) => {
     let match;
     let matches = [];
 
-    const { isSingleLine, regExp, callback } = regex;
-    const { needPos = true } = config
+
+    const { isSingleLine = false, regExp, callback } = regex;
+    const { needPos = true, beautifyOutput = false, mergeSingleLine } = config
+
+    let prevMatch: (CommentMatch & CommentExtraType) | null = null;
 
     while ((match = regExp.exec(content)) !== null) {
-        if (!needPos) {
-            const current = {
-                match: match[0],
-                content: match?.[1],
-                ...(extra || {})
-            }
+        const needStore = mergeSingleLine && isSingleLine
+        const _content = beautifyOutput ? beautify(match[1], extra?.type) : match[1]
+        const pos = (needPos || needStore) ? getPosDetail(content, match[0], match.index, isSingleLine) : null
 
-            if (!callback || callback(current, matches)) {
-                matches.push(current);
-            }
-            continue;
-        }
-
-        // 计算行数和列数
-        const lines = content.substring(0, match.index).split('\n');
-        const lineNumber = lines.length;
-
-        let startLine = lineNumber - 1;
-        let startColumn = lines[lines.length - 1].length;
-
-        let endLine, endColumn;
-
-        if (isSingleLine) {
-            endLine = startLine;
-            endColumn = startColumn + match[0].length - 1;
-        } else {
-            const matchContentLines = match[0].split('\n');
-            endLine = startLine + matchContentLines.length - 1;
-            endColumn = matchContentLines[matchContentLines.length - 1].length;
-        }
-
-        const current = {
+        const current: CommentMatch = {
             match: match[0],
-            startLine,
-            endLine,
-            startColumn,
-            endColumn,
-            content: match?.[1],
-            ...(extra || {})
+            content: _content,
+            ...(extra || {}),
+            ...(pos || {})
         }
 
         if (callback && !callback(current, matches)) {
             continue;
         }
 
-        matches.push(current);
+        if (!needStore) {
+            matches.push(current);
+            continue
+        }
+
+        if (prevMatch
+            && (prevMatch?.type === extra?.type || prevMatch?.regExpSource === extra?.regExpSource)
+            && current?.startLine !== undefined && prevMatch?.endLine !== undefined
+            && current.startLine === prevMatch?.endLine + 1
+        ) {
+            // update Last single match
+            current.startLine = prevMatch?.startLine
+            current.startColumn = prevMatch?.startColumn
+            current.match = getContentFromPos(content, current)
+            current.content = prevMatch.content + '/n' + current.content
+
+            matches[matches.length - 1] = current
+        } else {
+            matches.push(current);
+        }
+
+        prevMatch = { ...current, ...extra };
     }
     return matches;
 }

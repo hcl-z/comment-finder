@@ -1,7 +1,7 @@
 {
   "name": "comment-finder",
   "description": "parse comment from different code languages",
-  "version": "0.0.6",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "module": "index.ts",
@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.prod.json",
     "start": "node dist",
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node index.ts",
     "format": "prettier --write 'src/**/*.{ts,tsx}' 'README.md'",
     "lint": "tslint -p . -c tslint.json 'src/**/*.{ts,tsx}'",
     "test": "jest",
