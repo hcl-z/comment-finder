@@ -55,6 +55,8 @@ output:
 | regExp   | `IRegExp[]`     | 自定义正则匹配                                           | Yes      |
 | needPos  | `boolean`       | 是否需要返回注释的位置信息                               | Yes      |
 | language | `string`        | 代码的语言，如：JavaScript, TypeScript, Python 等        | Yes      |
+| beautifyOutput | `boolean` | 是否美化注释内容后输出                                   | Yes     |
+| mergeSingleLine | `boolean` | 是否将连行的单行注释合并成一条输出                                 | Yes     |
 
 ## License
 
