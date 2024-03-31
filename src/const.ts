@@ -48,7 +48,7 @@ export const DEFAULTCOMMENTRE = [CommentType.singleLineComment, CommentType.bloc
 
 export const CommentRegExpMap: Record<CommentType, IRegExp> = {
     [CommentType.singleLineComment]: { regExp: /\/\/(.*$)/gm, isSingleLine: true },
-    [CommentType.blockComment]: { regExp: /\/\*([\s\S]*?)\*\//g, isSingleLine: false },
+    [CommentType.blockComment]: { regExp: /\/\*([^*][\s\S]*?)\*\//g, isSingleLine: false },
     [CommentType.hashComment]: { regExp: /#(.*$)/gm, isSingleLine: true },
     [CommentType.docComment]: { regExp: /\/\*\*([\s\S]*?)\*\//gm, isSingleLine: false },
     [CommentType.beginAndEndComment]: { regExp: /begin=(.*)end=/gm, isSingleLine: false },
