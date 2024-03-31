@@ -41,7 +41,7 @@ export const beautify = (content: string, type?: CommentType) => {
         if (!trimedLine) {
             return lines
         }
-        if (type === CommentType.docComment && trimedLine.startsWith('*')) {
+        if (type === CommentType.docComment || type === CommentType.blockComment && trimedLine.startsWith('*')) {
             return [...lines, trimedLine.replace(/^\*\s+/, '')]
         }
         return [...lines, trimedLine]
